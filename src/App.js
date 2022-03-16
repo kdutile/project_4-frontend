@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios'
 import './App.css'
+import Add from './components/Add'
 
 const App = () => {
 
@@ -17,6 +18,15 @@ const App = () => {
       console.error(error);
     })
   }
+  // mack
+  const handleCreate = (addItem) => {
+    axios
+      .post('https://mystuff-app.herokuapp.com/api/items', addItem)
+      .then((response) => {
+        console.log(response)
+        getItems()
+      })
+  }
 
   useEffect(() => {
     getItems()
@@ -25,6 +35,7 @@ const App = () => {
 
   return (
     <>
+    <Add handleCreate={handleCreate} />
       <h1>My Stuff</h1>
       <table>
         <thead>
