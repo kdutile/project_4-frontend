@@ -20,10 +20,16 @@ const App = () => {
   }
   // mack
   const handleCreate = (addItem) => {
-    axios
-      .post('https://mystuff-app.herokuapp.com/api/items', addItem)
+    axios.post('https://mystuff-app.herokuapp.com/api/items', addItem)
       .then((response) => {
         console.log(response)
+        getItems()
+      })
+  }
+
+  const handleDelete = (event) => {
+    axios.delete('https://mystuff-app.herokuapp.com/api/items/' + event.target.value)
+      .then((response) => {
         getItems()
       })
   }
@@ -35,8 +41,8 @@ const App = () => {
 
   return (
     <>
-    <Add handleCreate={handleCreate} />
       <h1>My Stuff</h1>
+      <Add handleCreate={handleCreate} />
       <table>
         <thead>
           <tr>
@@ -52,6 +58,7 @@ const App = () => {
               <td>{item.name}</td>
               <td>{item.category}</td>
               <td>${item.cost}</td>
+              <button onClick={handleDelete} value={item.id}>X</button>
             </tr>
           )
         })}
