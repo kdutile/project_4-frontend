@@ -2,7 +2,7 @@ import {useState} from 'react'
 
 const Add = (props) => {
   // handling state
-  const emptyItem = {name: '', category: '', cost: ''}
+  const emptyItem = {name: '', category: '', description: '', cost: ''}
   const [item, setItem] = useState(emptyItem)
 
   // function to handle the changes for our object
@@ -23,6 +23,8 @@ const Add = (props) => {
         <input type="text" name="name" value={item.name} onChange={handleChange}/>
         <label htmlFor="category">Category: </label>
         <input type="text" name="category" value={item.category} onChange={handleChange}/>
+        <label htmlFor="description">Description: </label>
+        <input type="text" name="description" value={item.description} onChange={handleChange}/>
         <label htmlFor="cost">Cost: </label>
         <input type="number" name="cost" value={item.cost} onChange={handleChange}/>
         <input type="submit" />

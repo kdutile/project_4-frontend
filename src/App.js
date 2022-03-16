@@ -25,7 +25,10 @@ const App = () => {
         console.log(response)
         getItems()
       })
-  }
+      .catch((error) => {
+        console.log(error.response.data );
+  })
+}
 
   const handleDelete = (event) => {
     axios.delete('https://mystuff-app.herokuapp.com/api/items/' + event.target.value)
@@ -48,6 +51,7 @@ const App = () => {
           <tr>
             <th>Name</th>
             <th>Category</th>
+            <th>Description</th>
             <th>Cost</th>
           </tr>
         </thead>
@@ -57,6 +61,7 @@ const App = () => {
             <tr key={item.id}>
               <td>{item.name}</td>
               <td>{item.category}</td>
+              <td>{item.description}</td>
               <td>${item.cost}</td>
               <button onClick={handleDelete} value={item.id}>X</button>
             </tr>
