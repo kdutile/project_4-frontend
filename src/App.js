@@ -7,7 +7,7 @@ const App = () => {
   const [items, setItems] = useState([]);
 
   const getItems = () => {
-    axios.get('http://localhost:8000/api/items')
+    axios.get('https://mystuff-app.herokuapp.com/api/items')
     .then((response) => {
       setItems(response.data)
     }, (error) => {
