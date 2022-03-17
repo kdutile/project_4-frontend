@@ -4,7 +4,7 @@ import './App.css'
 
 import Edit from './components/Edit.js'
 import Display from './components/Display.js'
-import Add from './components/Add'
+import Add from './components/Add.js'
 // MUI DEPENDENCIES
 import { AccessAlarm, ThreeDRotation } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -48,8 +48,8 @@ const App = () => {
   })
 }
 
-  const handleDelete = (event) => {
-    axios.delete('https://mystuff-app.herokuapp.com/api/items/' + event.target.value)
+  const handleDelete = (id) => {
+    axios.delete('https://mystuff-app.herokuapp.com/api/items/' + id)
       .then((response) => {
         getItems()
       })
@@ -108,7 +108,7 @@ const App = () => {
               <td>${item.cost}</td>
               <td><button><MoreHorizIcon /></button></td>
               <td><button onClick={(event) => {handleToggleEdit(index)}}><CreateIcon/></button></td>
-              <td><button onClick={handleDelete} value={item.id}><DeleteIcon  /></button></td>
+              <td><button onClick={()=>handleDelete(item.id)}><DeleteIcon  /></button></td>
             </tr>
             {showEdit && selectIndex === index ?
             <Edit handleUpdate={handleUpdate} item={item}/> : null}

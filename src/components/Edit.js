@@ -22,14 +22,8 @@ const Edit = (props) => {
               <input type='text' value={item.name} name='name' onChange={handleChange}/>
               <label htmlFor='category'>Item Category: </label>
               <input type='text' value={item.category} name='category' onChange={handleChange}/>
-
-          {/*<td>
-            <form onSubmit = {handleEditSubmit}>
               <label htmlFor='description'>Item Description: </label>
               <textarea value={item.description} name='description' onChange={handleChange}/>
-            </form>
-          </td>*/}
-
               <label htmlFor='cost'>Item Cost: </label>
               <input type='number' value={item.cost} name='cost' onChange={handleChange}/>
               <input type='submit'/>
