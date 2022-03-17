@@ -1,16 +1,34 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios'
 import './App.css'
-import Add from './components/Add'
+
+import Edit from './components/Edit.js'
+import Display from './components/Display.js'
+import Add from './components/Add.js'
+// MUI DEPENDENCIES
+import { AccessAlarm, ThreeDRotation } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CreateIcon from '@mui/icons-material/Create';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Modal from '@mui/material/Modal';
 
 const App = () => {
 
+  // state for items database
   const [items, setItems] = useState([]);
+
+  //state for toggling edit
+  const [showEdit, setShowEdit] = useState(false)
+
+  //state for setting index for mapped items
+  const [selectIndex, setSelectIndex] = useState(0)
+
 
   const getItems = () => {
     axios.get('https://mystuff-app.herokuapp.com/api/items')
     .then((response) => {
       setItems(response.data)
+      setShowEdit(!response.data)
     }, (error) => {
       console.error(error)
     })
@@ -30,11 +48,32 @@ const App = () => {
   })
 }
 
-  const handleDelete = (event) => {
-    axios.delete('https://mystuff-app.herokuapp.com/api/items/' + event.target.value)
+  const handleDelete = (id) => {
+    axios.delete('https://mystuff-app.herokuapp.com/api/items/' + id)
       .then((response) => {
         getItems()
       })
+  }
+
+  const handleUpdate = (editItem) => {
+    axios.put('https://mystuff-app.herokuapp.com/api/items/' + editItem.id, editItem)
+    .then((res) => {
+      setItems(
+        items.map((item) => {
+          return (
+            item.id !==editItem.id ? item : editItem
+          )
+        })
+      )
+    })
+  }
+
+  const handleToggleEdit = (index) => {
+    setShowEdit(!showEdit)
+    setSelectIndex(index)
+    console.log(showEdit)
+    console.log(index)
+    console.log(selectIndex)
   }
 
   useEffect(() => {
@@ -53,23 +92,31 @@ const App = () => {
             <th>Category</th>
             <th>Description</th>
             <th>Cost</th>
+            <th>More</th>
+            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-        {items.map((item) => {
+        {items.map((item, index) => {
           return (
+          <>
             <tr key={item.id}>
               <td>{item.name}</td>
               <td>{item.category}</td>
               <td>{item.description}</td>
               <td>${item.cost}</td>
-              <button onClick={handleDelete} value={item.id}>X</button>
+              <td><button><MoreHorizIcon /></button></td>
+              <td><button onClick={(event) => {handleToggleEdit(index)}}><CreateIcon/></button></td>
+              <td><button onClick={()=>handleDelete(item.id)}><DeleteIcon  /></button></td>
             </tr>
+            {showEdit && selectIndex === index ?
+            <Edit handleUpdate={handleUpdate} item={item}/> : null}
+          </>
           )
         })}
         </tbody>
       </table>
-
     </>
   )
 }
