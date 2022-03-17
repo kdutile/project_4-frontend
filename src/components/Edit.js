@@ -15,31 +15,25 @@ const Edit = (props) => {
   }
 
   return(
-    <tr>
-      <td>
-          <label htmlFor='name'>Item Name: </label>
-          <input type='text' value={item.name} name='name' onChange={handleChange}/>
-      </td>
-      <td>
-          <label htmlFor='category'>Item Category: </label>
-          <input type='text' value={item.category} name='category' onChange={handleChange}/>
-      </td>
-      {/*<td>
-        <form onSubmit = {handleEditSubmit}>
-          <label htmlFor='description'>Item Description: </label>
-          <textarea value={item.description} name='description' onChange={handleChange}/>
-        </form>
-      </td>*/}
-      <td>
-          <label htmlFor='cost'>Item Cost: </label>
-          <input type='number' value={item.cost} name='cost' onChange={handleChange}/>
-      </td>
-      <td>
-        <form onSubmit = {handleEditSubmit}>
-          <input type='submit'/>
-        </form>
-      </td>
-    </tr>
+        <td colSpan="6">
+          <form onSubmit = {handleEditSubmit}>
+              <label htmlFor='name'>Item Name: </label>
+              <input type='text' value={item.name} name='name' onChange={handleChange}/>
+              <label htmlFor='category'>Item Category: </label>
+              <input type='text' value={item.category} name='category' onChange={handleChange}/>
+
+          {/*<td>
+            <form onSubmit = {handleEditSubmit}>
+              <label htmlFor='description'>Item Description: </label>
+              <textarea value={item.description} name='description' onChange={handleChange}/>
+            </form>
+          </td>*/}
+
+              <label htmlFor='cost'>Item Cost: </label>
+              <input type='number' value={item.cost} name='cost' onChange={handleChange}/>
+              <input type='submit'/>
+          </form>
+        </td>
   )
 }
 

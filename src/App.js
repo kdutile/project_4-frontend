@@ -84,7 +84,9 @@ const App = () => {
               <td><button onClick={(event) => {handleToggleEdit(index)}}><CreateIcon/></button></td>
               <td><button><DeleteIcon /></button></td>
             </tr>
-            <Edit handleUpdate={handleUpdate}/>
+            <tr key={item.id + '_edit'}>
+            <Edit handleUpdate={handleUpdate} item={item}/>
+            </tr>
           </>
           )
         })}
