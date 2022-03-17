@@ -11,6 +11,24 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+
+// ========= Modal Style ========= //
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    color: "#000",
+    width: 800,
+    height:800,
+    bgcolor: 'background.paper',
+    border: '5px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 const App = () => {
 
@@ -22,6 +40,12 @@ const App = () => {
 
   //state for setting index for mapped items
   const [selectIndex, setSelectIndex] = useState(0)
+
+  //Modal Open/Close State
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
 
 
   const getItems = () => {
@@ -106,7 +130,22 @@ const App = () => {
               <td>{item.category}</td>
               <td>{item.description}</td>
               <td>${item.cost}</td>
-              <td><button><MoreHorizIcon /></button></td>
+              <td>
+                  <button>
+                  <Box>
+                            <MoreHorizIcon sx={{mr: 1}}color="primary" variant="contained" value="Submit" type='Modal' onClick={handleOpen}/>
+                            <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                              <Box sx={modalStyle}>
+                                <Typography id="modal-modal-title" variant="h2" component="h2"> Item Name
+                                </Typography>
+                                <img src="https://wl-brightside.cf.tsp.li/resize/728x/jpg/4bc/a6e/49d49351c9b013bf9f34239c21.jpg" alt="nothing shown here"></img>
+                                <Typography id="modal-modal-description" variant="p" component="p">This is where the description about the item will go, we can include details like cost here; otherwise if that seems too redundant we can just leave it out.
+                                </Typography>
+                              </Box>
+                          </Modal>
+                  </Box>
+                  </button>
+              </td>
               <td><button onClick={(event) => {handleToggleEdit(index)}}><CreateIcon/></button></td>
               <td><button onClick={()=>handleDelete(item.id)}><DeleteIcon  /></button></td>
             </tr>
@@ -117,6 +156,7 @@ const App = () => {
         })}
         </tbody>
       </table>
+
     </>
   )
 }
