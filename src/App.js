@@ -27,6 +27,7 @@ const App = () => {
     axios.get('https://mystuff-app.herokuapp.com/api/items')
     .then((response) => {
       setItems(response.data)
+      setShowEdit(!response.data)
     }, (error) => {
       console.error(error)
     })
@@ -51,6 +52,9 @@ const App = () => {
   const handleToggleEdit = (index) => {
     setShowEdit(!showEdit)
     setSelectIndex(index)
+    console.log(showEdit)
+    console.log(index)
+    console.log(selectIndex)
   }
 
   useEffect(() => {
@@ -84,9 +88,8 @@ const App = () => {
               <td><button onClick={(event) => {handleToggleEdit(index)}}><CreateIcon/></button></td>
               <td><button><DeleteIcon /></button></td>
             </tr>
-            <tr key={item.id + '_edit'}>
-            <Edit handleUpdate={handleUpdate} item={item}/>
-            </tr>
+            {showEdit && selectIndex === index ?
+            <Edit handleUpdate={handleUpdate} item={item}/> : null}
           </>
           )
         })}

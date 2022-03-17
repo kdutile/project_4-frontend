@@ -15,6 +15,7 @@ const Edit = (props) => {
   }
 
   return(
+      <tr key={item.id + '_edit'}>
         <td colSpan="6">
           <form onSubmit = {handleEditSubmit}>
               <label htmlFor='name'>Item Name: </label>
@@ -34,6 +35,7 @@ const Edit = (props) => {
               <input type='submit'/>
           </form>
         </td>
+      </tr>
   )
 }
 
