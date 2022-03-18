@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios'
 import './App.css'
 
@@ -125,8 +125,8 @@ const App = () => {
             <tbody>
         {items.map((item, index) => {
           return (
-          <>
-            <tr key={item.id}>
+          <React.Fragment key={item.id}>
+            <tr>
               <td>{item.name}</td>
               <td>{item.category}</td>
               <td>{item.description}</td>
@@ -137,7 +137,7 @@ const App = () => {
             </tr>
             {showEdit && selectIndex === index ?
             <Edit handleUpdate={handleUpdate} item={item}/> : null}
-          </>
+          </React.Fragment>
           )
         })}
         </tbody>
