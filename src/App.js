@@ -27,7 +27,7 @@ const App = () => {
 
   // state for search input and filtered data
   const [searchInput, setSearchInput] = useState('')
-  const [filteredResults, setFilteredResults] = useState([])
+  const [filteredResults, setFilteredResults] = useState(null)
 
 
   const getItems = () => {
@@ -86,17 +86,17 @@ const App = () => {
 // function that handles search functionality
 // https://www.freecodecamp.org/news/build-a-search-filter-using-react-and-react-hooks/
   const searchItems = (searchValue) => {
-    setSearchInput(searchValue)
     // console.log(searchValue)
-    if (searchInput !== '') {
+    if (searchValue !== '') {
       const filteredData = items.filter((item) => {
-        return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
+        return Object.values(item).join('').toLowerCase().includes(searchValue.toLowerCase())
         // filter out 'items' state, use Object.values to get values from object item, convert into string, change string values to lowercase, check if this string includes input that we typed into search bar
       })
       setFilteredResults(filteredData)
     } else {
-      setFilteredResults(items)
-  }}
+      setFilteredResults(null)
+    }
+  }
 
   useEffect(() => {
     getItems()
@@ -123,7 +123,7 @@ const App = () => {
               </tr>
             </thead>
             <tbody>
-        {items.map((item, index) => {
+        { filteredResults ? (filteredResults.map((item, index) => {
           return (
           <React.Fragment key={item.id}>
             <tr>
@@ -139,7 +139,24 @@ const App = () => {
             <Edit handleUpdate={handleUpdate} item={item}/> : null}
           </React.Fragment>
           )
-        })}
+        })) : (items.map((item, index) => {
+          return (
+          <React.Fragment key={item.id}>
+            <tr>
+              <td>{item.name}</td>
+              <td>{item.category}</td>
+              <td>{item.description}</td>
+              <td>${item.cost}</td>
+              <td><button><MoreHorizIcon /></button></td>
+              <td><button onClick={(event) => {handleToggleEdit(index)}}><CreateIcon/></button></td>
+              <td><button onClick={()=>handleDelete(item.id)}><DeleteIcon  /></button></td>
+            </tr>
+            {showEdit && selectIndex === index ?
+            <Edit handleUpdate={handleUpdate} item={item}/> : null}
+          </React.Fragment>
+          )
+        }))
+      }
         </tbody>
       </table>
     </>
