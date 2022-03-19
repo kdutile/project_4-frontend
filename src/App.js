@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios'
 import './App.css'
 
+// export button
+import {ExportReactCSV} from './components/ExportReactCSV'
+// search function
 import {Input} from 'semantic-ui-react'
 
 import Edit from './components/Edit.js'
@@ -109,7 +112,9 @@ const App = () => {
         <Input icon="search"
           placeholder="Search..."
           onChange={(e) => searchItems(e.target.value)}/>
+          <ExportReactCSV csvData={items} fileName="my_stuff.csv" />
         <Add handleCreate={handleCreate} />
+
           <table>
             <thead>
               <tr>
