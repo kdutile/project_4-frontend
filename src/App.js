@@ -8,14 +8,32 @@ import {ExportReactCSV} from './components/ExportReactCSV'
 import {Input} from 'semantic-ui-react'
 
 import Edit from './components/Edit.js'
-import Display from './components/Display.js'
+import Nav from './components/nav.js'
 import Add from './components/Add.js'
+
 // MUI DEPENDENCIES
-import { AccessAlarm, ThreeDRotation } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+
+// ========= Modal Style ========= //
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    color: "#000",
+    width: 800,
+    height:800,
+    bgcolor: 'background.paper',
+    border: '5px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 const App = () => {
 
@@ -25,13 +43,31 @@ const App = () => {
   //state for toggling edit
   const [showEdit, setShowEdit] = useState(false)
 
+  //state for toggling add form
+  const [showAdd, setShowAdd] = useState(false)
+
   //state for setting index for mapped items
   const [selectIndex, setSelectIndex] = useState(0)
 
-  // state for search input and filtered data
-  const [searchInput, setSearchInput] = useState('')
-  const [filteredResults, setFilteredResults] = useState(null)
+  const [selectItem, setSelectItem] = useState({})
 
+  // state for search input and filtered data
+const [searchInput, setSearchInput] = useState('')
+const [filteredResults, setFilteredResults] = useState(null)
+
+  //Modal Open/Close State
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = (item) => {
+    setSelectItem(item)
+    setOpen(true);
+
+
+  }
+  const handleClose = () => {
+    setOpen(false);
+    setSelectItem({})
+  }
 
   const getItems = () => {
     axios.get('https://mystuff-app.herokuapp.com/api/items')
@@ -81,9 +117,10 @@ const App = () => {
   const handleToggleEdit = (index) => {
     setShowEdit(!showEdit)
     setSelectIndex(index)
-    console.log(showEdit)
-    console.log(index)
-    console.log(selectIndex)
+  }
+  
+  const handleToggleAdd = () => {
+    setShowAdd(!showAdd)
   }
 
 // function that handles search functionality
@@ -105,16 +142,18 @@ const App = () => {
     getItems()
   }, [])
 
-
   return (
     <>
-      <h1>My Stuff</h1>
-        <Input icon="search"
-          placeholder="Search..."
-          onChange={(e) => searchItems(e.target.value)}/>
-          <ExportReactCSV csvData={items} fileName="my_stuff.csv" />
-        <Add handleCreate={handleCreate} />
+    <Nav handleToggleAdd={handleToggleAdd}/>
 
+    {/*//Make search it's own component and stick in the nav??*/}
+    <Input icon="search"
+         placeholder="Search..."
+         onChange={(e) => searchItems(e.target.value)}/>
+         <ExportReactCSV csvData={items} fileName="my_stuff.csv" />
+
+    {showAdd ? <Add handleToggleAdd={handleToggleAdd} handleCreate={handleCreate} /> :
+        <>
           <table>
             <thead>
               <tr>
@@ -128,42 +167,67 @@ const App = () => {
               </tr>
             </thead>
             <tbody>
-        { filteredResults ? (filteredResults.map((item, index) => {
-          return (
-          <React.Fragment key={item.id}>
-            <tr>
-              <td>{item.name}</td>
-              <td>{item.category}</td>
-              <td>{item.description}</td>
-              <td>${item.cost}</td>
-              <td><button><MoreHorizIcon /></button></td>
-              <td><button onClick={(event) => {handleToggleEdit(index)}}><CreateIcon/></button></td>
-              <td><button onClick={()=>handleDelete(item.id)}><DeleteIcon  /></button></td>
-            </tr>
-            {showEdit && selectIndex === index ?
-            <Edit handleUpdate={handleUpdate} item={item}/> : null}
-          </React.Fragment>
-          )
-        })) : (items.map((item, index) => {
-          return (
-          <React.Fragment key={item.id}>
-            <tr>
-              <td>{item.name}</td>
-              <td>{item.category}</td>
-              <td>{item.description}</td>
-              <td>${item.cost}</td>
-              <td><button><MoreHorizIcon /></button></td>
-              <td><button onClick={(event) => {handleToggleEdit(index)}}><CreateIcon/></button></td>
-              <td><button onClick={()=>handleDelete(item.id)}><DeleteIcon  /></button></td>
-            </tr>
-            {showEdit && selectIndex === index ?
-            <Edit handleUpdate={handleUpdate} item={item}/> : null}
-          </React.Fragment>
-          )
-        }))
-      }
-        </tbody>
-      </table>
+            {/*=======Mak's search ternary!=========*/}
+            { filteredResults ? (filteredResults.map((item, index) => {
+              return (
+                 <React.Fragment key={item.id}>
+                  <tr>
+                    <td>{item.name}</td>
+                    <td>{item.category}</td>
+                    <td>{item.description}</td>
+                    <td>${item.cost}</td>
+                    <td>
+                            <MoreHorizIcon className="clickIcon" sx={{mr: 1}}color="primary" variant="contained" value="Submit" type='Modal' onClick={()=>{handleOpen(item)}} />
+                            <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                              <Box sx={modalStyle}>
+                                <Typography id="modal-modal-title" variant="h2" component="h2">{selectItem.name}
+                                </Typography>
+                                <img src="https://wl-brightside.cf.tsp.li/resize/728x/jpg/4bc/a6e/49d49351c9b013bf9f34239c21.jpg" alt="nothing shown here"></img>
+                                <Typography id="modal-modal-description" variant="p" component="p">{selectItem.description}
+                                </Typography>
+                              </Box>
+                            </Modal>
+                    </td>
+                    <td><CreateIcon className="clickIcon" onClick={(event) => {handleToggleEdit(index)}}/></td>
+                    <td><DeleteIcon className="clickIcon" onClick={()=>handleDelete(item.id)}  /></td>
+                  </tr>
+                  {showEdit && selectIndex === index ?
+                  <Edit handleUpdate={handleUpdate} item={item}/> : null}
+                </React.Fragment>
+              )
+            })) : items.map((item, index) => {
+              return (
+               <React.Fragment key={item.id}>
+                <tr>
+                  <td>{item.name}</td>
+                  <td>{item.category}</td>
+                  <td>{item.description}</td>
+                  <td>${item.cost}</td>
+                  <td>
+                          <MoreHorizIcon className="clickIcon" sx={{mr: 1}}color="primary" variant="contained" value="Submit" type='Modal' onClick={()=>{handleOpen(item)}} />
+                          <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                            <Box sx={modalStyle}>
+                              <Typography id="modal-modal-title" variant="h2" component="h2">{selectItem.name}
+                              </Typography>
+                              <img src="https://wl-brightside.cf.tsp.li/resize/728x/jpg/4bc/a6e/49d49351c9b013bf9f34239c21.jpg" alt="nothing shown here"></img>
+                              <Typography id="modal-modal-description" variant="p" component="p">{selectItem.description}
+                              </Typography>
+                            </Box>
+                          </Modal>
+                  </td>
+                  <td><CreateIcon className="clickIcon" onClick={(event) => {handleToggleEdit(index)}}/></td>
+                  <td><DeleteIcon className="clickIcon" onClick={()=>handleDelete(item.id)}  /></td>
+                </tr>
+                {showEdit && selectIndex === index ?
+                <Edit handleUpdate={handleUpdate} item={item}/> : null}
+              </React.Fragment>
+              )
+            })
+            }
+            </tbody>
+          </table>
+        </>
+    }
     </>
   )
 }
