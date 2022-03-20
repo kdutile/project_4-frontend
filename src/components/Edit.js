@@ -24,6 +24,7 @@ const Edit = (props) => {
       <tr key={item.id + '_edit'}>
         <td colSpan="7">
           <Box
+            className="form"
             onSubmit = {handleEditSubmit}
             component="form"
             sx={{

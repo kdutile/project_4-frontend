@@ -34,6 +34,7 @@ const Add = (props) => {
         }}
         noValidate
       >
+      
         <InputLabel htmlFor="name">Name</InputLabel>
         <OutlinedInput
         name="name"

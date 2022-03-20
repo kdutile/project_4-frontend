@@ -2,11 +2,16 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios'
 import './App.css'
 
+// export button
+import {ExportReactCSV} from './components/ExportReactCSV'
+// search function
+import {Input} from 'semantic-ui-react'
+
 import Edit from './components/Edit.js'
 import Nav from './components/nav.js'
 import Add from './components/Add.js'
+
 // MUI DEPENDENCIES
-import { AccessAlarm, ThreeDRotation } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -46,6 +51,10 @@ const App = () => {
   const [selectIndex, setSelectIndex] = useState(0)
 
   const [selectItem, setSelectItem] = useState({})
+
+  // state for search input and filtered data
+const [searchInput, setSearchInput] = useState('')
+const [filteredResults, setFilteredResults] = useState(null)
 
   //Modal Open/Close State
   const [open, setOpen] = useState(false);
@@ -116,6 +125,23 @@ const App = () => {
     setShowAdd(!showAdd)
   }
 
+  // function that handles search functionality
+// https://www.freecodecamp.org/news/build-a-search-filter-using-react-and-react-hooks/
+  const searchItems = (searchValue) => {
+    // console.log(searchValue)
+    if (searchValue !== '') {
+      const filteredData = items.filter((item) => {
+        return Object.values(item).join('').toLowerCase().includes(searchValue.toLowerCase())
+        // filter out 'items' state, use Object.values to get values from object item, convert into string, change string values to lowercase, check if this string includes input that we typed into search bar
+      })
+      setFilteredResults(filteredData)
+    } else {
+      setFilteredResults(null)
+    }
+  }
+
+
+
   useEffect(() => {
     getItems()
   }, [])
@@ -123,6 +149,13 @@ const App = () => {
   return (
     <>
     <Nav handleToggleAdd={handleToggleAdd}/>
+
+    {/*//Make search it's own component and stick in the nav??*/}
+    <Input icon="search"
+         placeholder="Search..."
+         onChange={(e) => searchItems(e.target.value)}/>
+         <ExportReactCSV csvData={items} fileName="my_stuff.csv" />
+
     {showAdd ? <Add handleToggleAdd={handleToggleAdd} handleCreate={handleCreate} /> :
         <>
           <table>
@@ -138,7 +171,36 @@ const App = () => {
               </tr>
             </thead>
             <tbody>
-            {items.map((item, index) => {
+
+            {/*=======Mak's search ternary!=========*/}
+            { filteredResults ? (filteredResults.map((item, index) => {
+              return (
+                 <React.Fragment key={item.id}>
+                  <tr>
+                    <td>{item.name}</td>
+                    <td>{item.category}</td>
+                    <td>{item.description}</td>
+                    <td>${item.cost}</td>
+                    <td>
+                            <MoreHorizIcon className="clickIcon" sx={{mr: 1}}color="primary" variant="contained" value="Submit" type='Modal' onClick={()=>{handleOpen(item)}} />
+                            <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                              <Box sx={modalStyle}>
+                                <Typography id="modal-modal-title" variant="h2" component="h2">{selectItem.name}
+                                </Typography>
+                                <img src="https://wl-brightside.cf.tsp.li/resize/728x/jpg/4bc/a6e/49d49351c9b013bf9f34239c21.jpg" alt="nothing shown here"></img>
+                                <Typography id="modal-modal-description" variant="p" component="p">{selectItem.description}
+                                </Typography>
+                              </Box>
+                            </Modal>
+                    </td>
+                    <td><CreateIcon className="clickIcon" onClick={(event) => {handleToggleEdit(index)}}/></td>
+                    <td><DeleteIcon className="clickIcon" onClick={()=>handleDelete(item.id)}  /></td>
+                  </tr>
+                  {showEdit && selectIndex === index ?
+                  <Edit handleUpdate={handleUpdate} item={item}/> : null}
+                </React.Fragment>
+              )
+            })) : items.map((item, index) => {
               return (
                <React.Fragment key={item.id}>
                 <tr>
@@ -165,7 +227,14 @@ const App = () => {
                 <Edit handleUpdate={handleUpdate} item={item}/> : null}
               </React.Fragment>
               )
-            })}
+            })
+            }
+
+
+
+
+
+
             </tbody>
           </table>
         </>
