@@ -20,7 +20,6 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
-
 // ========= Modal Style ========= //
   const modalStyle = {
     position: 'absolute',
@@ -70,8 +69,6 @@ const [filteredResults, setFilteredResults] = useState(null)
     setSelectItem({})
   }
 
-
-
   const getItems = () => {
     axios.get('https://mystuff-app.herokuapp.com/api/items')
     .then((response) => {
@@ -84,6 +81,7 @@ const [filteredResults, setFilteredResults] = useState(null)
       console.error(error);
     })
   }
+
   // mack
   const handleCreate = (addItem) => {
     axios.post('https://mystuff-app.herokuapp.com/api/items', addItem)
@@ -120,12 +118,12 @@ const [filteredResults, setFilteredResults] = useState(null)
     setShowEdit(!showEdit)
     setSelectIndex(index)
   }
-
+  
   const handleToggleAdd = () => {
     setShowAdd(!showAdd)
   }
 
-  // function that handles search functionality
+// function that handles search functionality
 // https://www.freecodecamp.org/news/build-a-search-filter-using-react-and-react-hooks/
   const searchItems = (searchValue) => {
     // console.log(searchValue)
@@ -139,8 +137,6 @@ const [filteredResults, setFilteredResults] = useState(null)
       setFilteredResults(null)
     }
   }
-
-
 
   useEffect(() => {
     getItems()
@@ -171,7 +167,6 @@ const [filteredResults, setFilteredResults] = useState(null)
               </tr>
             </thead>
             <tbody>
-
             {/*=======Mak's search ternary!=========*/}
             { filteredResults ? (filteredResults.map((item, index) => {
               return (
@@ -229,12 +224,6 @@ const [filteredResults, setFilteredResults] = useState(null)
               )
             })
             }
-
-
-
-
-
-
             </tbody>
           </table>
         </>
