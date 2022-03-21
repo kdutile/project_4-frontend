@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios'
 import './App.css'
 
@@ -18,15 +18,15 @@ import CreateIcon from '@mui/icons-material/Create';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
+// import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
+// import Table from '@mui/material/Table'
+// import TableBody from '@mui/material/TableBody';
+// import TableCell from '@mui/material/TableCell';
+// import TableContainer from '@mui/material/TableContainer';
+// import TableHead from '@mui/material/TableHead';
+// import TablePagination from '@mui/material/TablePagination';
+// import TableRow from '@mui/material/TableRow';
 
 
 // ========= Modal Style ========= //
@@ -62,11 +62,11 @@ const App = () => {
   const [selectItem, setSelectItem] = useState({})
 
   // state for search input and filtered data
-  const [searchInput, setSearchInput] = useState('')
+  // const [searchInput, setSearchInput] = useState('')
   const [filteredResults, setFilteredResults] = useState(null)
 
-// state for showing and hiding searchex
-const [showSearchex, setShowSearchex] = useState(true)
+  // state for showing and hiding searchex
+  // const [showSearchex, setShowSearchex] = useState(true)
 
   //Modal Open/Close State
   const [open, setOpen] = useState(false);
@@ -229,9 +229,9 @@ const [showSearchex, setShowSearchex] = useState(true)
     }
   }
 
-  useEffect(() => {
-    getItems()
-  }, [])
+  // useEffect(() => {
+  //   getItems()
+  // }, [])
 
   return (
     <>
