@@ -162,10 +162,14 @@ const [showSearchex, setShowSearchex] = useState(true)
     <Nav showAdd={showAdd} handleToggleAdd={handleToggleAdd}/>
 
     {/*//Make search it's own component and stick in the nav??*/}
-    <Input className="searchex" icon="search"
-         placeholder="Search..."
-         onChange={(e) => searchItems(e.target.value)}/>
-         <ExportReactCSV className="searchex" csvData={items} fileName="my_stuff.csv" />
+    {showAdd ? null :
+    <>
+      <Input className="searchex" icon="search"
+      placeholder="Search..."
+      onChange={(e) => searchItems(e.target.value)}/>
+      <ExportReactCSV className="searchex" csvData={items} fileName="my_stuff.csv" />
+    </>
+    }
 
     {showAdd ? <Add handleToggleAdd={handleToggleAdd} handleCreate={handleCreate} /> :
         <>
