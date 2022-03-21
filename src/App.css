@@ -55,3 +55,16 @@ table td {
   flex-direction: column;
   align-items: center;
 }
+
+.searchex {
+  display: inline-block;
+  margin-right: 3%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  text-align: left;
+}
+
+.input {
+  border: 1px solid rgba(0,0,0,.2);
+  border-top: 2.5px solid rgba(0,0,0,.2);
+}

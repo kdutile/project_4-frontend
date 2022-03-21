@@ -20,6 +20,14 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+
 
 // ========= Modal Style ========= //
   const modalStyle = {
@@ -32,6 +40,7 @@ import Typography from '@mui/material/Typography'
     height:800,
     bgcolor: 'background.paper',
     border: '5px solid #000',
+    borderRadius: 10,
     boxShadow: 24,
     p: 4,
   };
@@ -55,6 +64,9 @@ const App = () => {
   // state for search input and filtered data
   const [searchInput, setSearchInput] = useState('')
   const [filteredResults, setFilteredResults] = useState(null)
+
+// state for showing and hiding searchex
+const [showSearchex, setShowSearchex] = useState(true)
 
   //Modal Open/Close State
   const [open, setOpen] = useState(false);
@@ -103,7 +115,8 @@ const App = () => {
 
   // mack
   const handleCreate = (addItem) => {
-    axios.post('http://localhost:8000/api/items', addItem)
+    setShowAdd(!showAdd)
+    axios.post('https://mystuff-app.herokuapp.com/api/items', addItem)
       .then((response) => {
         console.log(response)
         getItems()
@@ -121,7 +134,8 @@ const App = () => {
   }
 
   const handleUpdate = (editItem) => {
-    axios.put('http://localhost:8000/api/items/' + editItem.id, editItem)
+    setShowEdit(!showEdit)
+    axios.put('https://mystuff-app.herokuapp.com/api/items/' + editItem.id, editItem)
     .then((res) => {
       setItems(
         items.map((item) => {
@@ -221,7 +235,7 @@ const App = () => {
 
   return (
     <>
-    <Nav handleToggleAdd={handleToggleAdd} toggleSignIn={toggleSignIn} signIn={signIn} signOut={signOut} toggleSignUp= {toggleSignUp} signUp={signUp} user={user}/>
+    <Nav showAdd={showAdd} handleToggleAdd={handleToggleAdd} toggleSignIn={toggleSignIn} signIn={signIn} signOut={signOut} toggleSignUp= {toggleSignUp} signUp={signUp} user={user}/>
 
     { signIn ? <Login handleUserSignIn={handleUserSignIn} signIn={signIn} /> : null }
     { signUp ? <Login handleUserSignUp={handleUserSignUp} signIn={signIn} /> : null }
@@ -230,7 +244,7 @@ const App = () => {
     <Input icon='search'
          placeholder='Search...'
          onChange={(e) => searchItems(e.target.value)}/>
-         <ExportReactCSV csvData={items} fileName="my_stuff.csv" />
+         <ExportReactCSV className="searchex" csvData={items} fileName="my_stuff.csv" />
 
     { showAdd ? <Add handleToggleAdd={handleToggleAdd} handleCreate={handleCreate} user={user}/> :
         <>
@@ -262,7 +276,9 @@ const App = () => {
                               <Box sx={modalStyle}>
                                 <Typography id="modal-modal-title" variant="h2" component="h2">{selectItem.name}
                                 </Typography>
-                                <img src="https://wl-brightside.cf.tsp.li/resize/728x/jpg/4bc/a6e/49d49351c9b013bf9f34239c21.jpg" alt="nothing shown here"></img>
+                                <img src="https://wl-brightside.cf.tsp.li/resize/728x/jpg/4bc/a6e/49d49351c9b013bf9f34239c21.jpg" alt="nothing shown here"
+                                width="800"
+                                height="800"></img>
                                 <Typography id="modal-modal-description" variant="p" component="p">{selectItem.description}
                                 </Typography>
                               </Box>
@@ -272,7 +288,7 @@ const App = () => {
                     <td><DeleteIcon className="clickIcon" onClick={()=>handleDelete(item.id)}  /></td>
                   </tr>
                   {showEdit && selectIndex === index ?
-                  <Edit handleUpdate={handleUpdate} item={item}/> : null}
+                  <Edit handleToggleEdit={handleToggleEdit} handleUpdate={handleUpdate} item={item}/> : null}
                 </React.Fragment>
               )
             })) : items.map((item, index) => {
@@ -299,7 +315,7 @@ const App = () => {
                   <td><DeleteIcon className="clickIcon" onClick={()=>handleDelete(item.id)}  /></td>
                 </tr>
                 {showEdit && selectIndex === index ?
-                <Edit handleUpdate={handleUpdate} item={item}/> : null}
+                <Edit handleToggleEdit={handleToggleEdit} handleUpdate={handleUpdate} item={item}/> : null}
               </React.Fragment>
               )
             })
