@@ -24,10 +24,14 @@ const Nav = (props) => {
         >
         MyStuffApp
         </Typography>
-        <Typography className="clickIcon" variant="h5" noWrap component="div" sx={{mr: 2, display: { xs: 'none', md: 'flex'} }} onClick={props.handleToggleAdd}
-        >
-        Add Item
-        </Typography>
+          {props.showAdd ?   <Typography className="clickIcon" variant="h5" noWrap component="div" sx={{mr: 2, display: { xs: 'none', md: 'flex'} }} onClick={props.handleToggleAdd}
+            >
+            Return
+            </Typography> : <Typography className="clickIcon" variant="h5" noWrap component="div" sx={{mr: 2, display: { xs: 'none', md: 'flex'} }} onClick={props.handleToggleAdd}
+              >
+              Add Item
+              </Typography>}
+
         <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login">Log In</Button>
       </Toolbar>
     </AppBar>
