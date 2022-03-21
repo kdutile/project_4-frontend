@@ -28,7 +28,9 @@ const Nav = (props) => {
         >
         Add Item
         </Typography>
-        <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login">Log In</Button>
+        { (!props.signIn && !props.user) ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.toggleSignIn} >Log In</Button> : null }
+        { ( props.signIn && !props.user) ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.toggleSignIn} >Cancel</Button> : null }
+        { props.user ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.signOut}>Log Out</Button> : null }
       </Toolbar>
     </AppBar>
   )

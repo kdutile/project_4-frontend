@@ -9,7 +9,7 @@ import TextareaAutosize from '@mui/base/TextareaAutosize';
 
 const Add = (props) => {
   // handling state
-  const emptyItem = {name: '', category: '', description: '', cost: ''}
+  const emptyItem = {name: '', category: '', description: '', cost: '', user: props.user}
   const [item, setItem] = useState(emptyItem)
 
   // function to handle the changes for our object
@@ -34,7 +34,7 @@ const Add = (props) => {
         }}
         noValidate
       >
-      
+
         <InputLabel htmlFor="name">Name</InputLabel>
         <OutlinedInput
         name="name"

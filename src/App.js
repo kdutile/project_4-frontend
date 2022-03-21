@@ -10,6 +10,7 @@ import {Input} from 'semantic-ui-react'
 import Edit from './components/Edit.js'
 import Nav from './components/nav.js'
 import Add from './components/Add.js'
+import Login from './components/Login.js'
 
 // MUI DEPENDENCIES
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -52,39 +53,56 @@ const App = () => {
   const [selectItem, setSelectItem] = useState({})
 
   // state for search input and filtered data
-const [searchInput, setSearchInput] = useState('')
-const [filteredResults, setFilteredResults] = useState(null)
+  const [searchInput, setSearchInput] = useState('')
+  const [filteredResults, setFilteredResults] = useState(null)
 
   //Modal Open/Close State
   const [open, setOpen] = useState(false);
 
+  const [signIn, setSignIn] = useState(false);
+  const [user, setUser] = useState(null);
+
   const handleOpen = (item) => {
     setSelectItem(item)
     setOpen(true);
-
-
   }
+
   const handleClose = () => {
     setOpen(false);
     setSelectItem({})
   }
 
-  const getItems = () => {
-    axios.get('https://mystuff-app.herokuapp.com/api/items')
-    .then((response) => {
-      setItems(response.data)
-      setShowEdit(!response.data)
-    }, (error) => {
-      console.error(error)
-    })
-    .catch((error) => {
-      console.error(error);
-    })
+  const getItems = (username) => {
+    if (username) {
+      axios.get('http://localhost:8000/api/items')
+      .then((response) => {
+        const userFilter = response.data.filter(item => item.user === username);
+        setItems(userFilter)
+        setShowEdit(!userFilter)
+      }, (error) => {
+        console.error(error)
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    } else {
+      axios.get('http://localhost:8000/api/items')
+      .then((response) => {
+        const userFilter = response.data.filter(item => item.user === user);
+        setItems(userFilter)
+        setShowEdit(!userFilter)
+      }, (error) => {
+        console.error(error)
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    }
   }
 
   // mack
   const handleCreate = (addItem) => {
-    axios.post('https://mystuff-app.herokuapp.com/api/items', addItem)
+    axios.post('http://localhost:8000/api/items', addItem)
       .then((response) => {
         console.log(response)
         getItems()
@@ -95,14 +113,14 @@ const [filteredResults, setFilteredResults] = useState(null)
 }
 
   const handleDelete = (id) => {
-    axios.delete('https://mystuff-app.herokuapp.com/api/items/' + id)
+    axios.delete('http://ocalhost:8000/api/items/' + id)
       .then((response) => {
         getItems()
       })
   }
 
   const handleUpdate = (editItem) => {
-    axios.put('https://mystuff-app.herokuapp.com/api/items/' + editItem.id, editItem)
+    axios.put('http://localhost:8000/api/items/' + editItem.id, editItem)
     .then((res) => {
       setItems(
         items.map((item) => {
@@ -118,10 +136,36 @@ const [filteredResults, setFilteredResults] = useState(null)
     setShowEdit(!showEdit)
     setSelectIndex(index)
   }
-  
+
   const handleToggleAdd = () => {
     setShowAdd(!showAdd)
   }
+
+  const toggleSignIn = () => {
+    setSignIn(!signIn)
+  }
+
+  const signOut = () => {
+    setUser(null);
+    getItems();
+  }
+
+  const handleUserSignIn = (username, password) => {
+    axios
+      .put("http://localhost:8000/api/useraccount/login", {
+        username,
+        password,
+      })
+      .then((response) => {
+        if (response.data.username) {
+          setUser(response.data.username);
+          setSignIn(false);
+          getItems(response.data.username);
+        } else {
+          alert("Username and password do not match. Please try again.");
+        }
+      });
+  };
 
 // function that handles search functionality
 // https://www.freecodecamp.org/news/build-a-search-filter-using-react-and-react-hooks/
@@ -144,15 +188,17 @@ const [filteredResults, setFilteredResults] = useState(null)
 
   return (
     <>
-    <Nav handleToggleAdd={handleToggleAdd}/>
+    <Nav handleToggleAdd={handleToggleAdd} toggleSignIn={toggleSignIn} signIn={signIn} signOut={signOut} user={user}/>
+
+    { signIn ? <Login handleUserSignIn={handleUserSignIn}/> : null }
 
     {/*//Make search it's own component and stick in the nav??*/}
-    <Input icon="search"
-         placeholder="Search..."
+    <Input icon='search'
+         placeholder='Search...'
          onChange={(e) => searchItems(e.target.value)}/>
          <ExportReactCSV csvData={items} fileName="my_stuff.csv" />
 
-    {showAdd ? <Add handleToggleAdd={handleToggleAdd} handleCreate={handleCreate} /> :
+    { showAdd ? <Add handleToggleAdd={handleToggleAdd} handleCreate={handleCreate} user={user}/> :
         <>
           <table>
             <thead>
