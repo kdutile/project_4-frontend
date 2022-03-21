@@ -87,7 +87,7 @@ const [showSearchex, setShowSearchex] = useState(true)
 
   const getItems = (username) => {
     if (username) {
-      axios.get('http://mystuff-app.herokuapp.com/api/items')
+      axios.get('https://mystuff-app.herokuapp.com/api/items')
       .then((response) => {
         const userFilter = response.data.filter(item => item.user === username);
         setItems(userFilter)
@@ -99,7 +99,7 @@ const [showSearchex, setShowSearchex] = useState(true)
         console.error(error);
       })
     } else {
-      axios.get('http://mystuff-app.herokuapp.com/api/items')
+      axios.get('https://mystuff-app.herokuapp.com/api/items')
       .then((response) => {
         const userFilter = response.data.filter(item => item.user === user);
         setItems(userFilter)
@@ -116,7 +116,7 @@ const [showSearchex, setShowSearchex] = useState(true)
   // mack
   const handleCreate = (addItem) => {
     setShowAdd(!showAdd)
-    axios.post('http://mystuff-app.herokuapp.com/api/items', addItem)
+    axios.post('https://mystuff-app.herokuapp.com/api/items', addItem)
       .then((response) => {
         console.log(response)
         getItems()
@@ -127,7 +127,7 @@ const [showSearchex, setShowSearchex] = useState(true)
 }
 
   const handleDelete = (id) => {
-    axios.delete('http://ocalhost:8000/api/items/' + id)
+    axios.delete('https://ocalhost:8000/api/items/' + id)
       .then((response) => {
         getItems()
       })
@@ -135,7 +135,7 @@ const [showSearchex, setShowSearchex] = useState(true)
 
   const handleUpdate = (editItem) => {
     setShowEdit(!showEdit)
-    axios.put('http://mystuff-app.herokuapp.com/api/items/' + editItem.id, editItem)
+    axios.put('https://mystuff-app.herokuapp.com/api/items/' + editItem.id, editItem)
     .then((res) => {
       setItems(
         items.map((item) => {
@@ -182,7 +182,7 @@ const [showSearchex, setShowSearchex] = useState(true)
 
   const handleUserSignIn = (username, password) => {
     axios
-      .put("http://mystuff-app.herokuapp.com/api/useraccount/login", {
+      .put("https://mystuff-app.herokuapp.com/api/useraccount/login", {
         username,
         password,
       })
@@ -199,7 +199,7 @@ const [showSearchex, setShowSearchex] = useState(true)
 
   const handleUserSignUp = (username, password) => {
     axios
-      .post("http://mystuff-app.herokuapp.com/api/useraccount", {
+      .post("https://mystuff-app.herokuapp.com/api/useraccount", {
         username,
         password,
       })
