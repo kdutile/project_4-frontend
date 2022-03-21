@@ -35,6 +35,7 @@ const Edit = (props) => {
 
               <InputLabel htmlFor="name">Name</InputLabel>
               <OutlinedInput
+              className="input"
               name="name"
               value={item.name}
               onChange={handleChange}
@@ -43,6 +44,7 @@ const Edit = (props) => {
 
               <InputLabel htmlFor='category'>Item Category: </InputLabel>
               <OutlinedInput
+              className="input"
               name="category"
               value={item.category}
               onChange={handleChange}
@@ -58,7 +60,8 @@ const Edit = (props) => {
               onChange={handleChange}/>
 
               <InputLabel htmlFor='cost'>Item Cost: </InputLabel>
-              <OutlinedInput type='number' value={item.cost} name='cost' onChange={handleChange}/>
+              <OutlinedInput
+                className="input" type='number' value={item.cost} name='cost' onChange={handleChange}/>
 
 
               <Button type='submit'>Submit</Button>

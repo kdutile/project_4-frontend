@@ -19,6 +19,14 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+
 
 // ========= Modal Style ========= //
   const modalStyle = {
@@ -31,6 +39,7 @@ import Typography from '@mui/material/Typography'
     height:800,
     bgcolor: 'background.paper',
     border: '5px solid #000',
+    borderRadius: 10,
     boxShadow: 24,
     p: 4,
   };
@@ -54,6 +63,9 @@ const App = () => {
   // state for search input and filtered data
 const [searchInput, setSearchInput] = useState('')
 const [filteredResults, setFilteredResults] = useState(null)
+
+// state for showing and hiding searchex
+const [showSearchex, setShowSearchex] = useState(true)
 
   //Modal Open/Close State
   const [open, setOpen] = useState(false);
@@ -118,10 +130,11 @@ const [filteredResults, setFilteredResults] = useState(null)
     setShowEdit(!showEdit)
     setSelectIndex(index)
   }
-  
+
   const handleToggleAdd = () => {
     setShowAdd(!showAdd)
   }
+
 
 // function that handles search functionality
 // https://www.freecodecamp.org/news/build-a-search-filter-using-react-and-react-hooks/
@@ -147,10 +160,10 @@ const [filteredResults, setFilteredResults] = useState(null)
     <Nav handleToggleAdd={handleToggleAdd}/>
 
     {/*//Make search it's own component and stick in the nav??*/}
-    <Input icon="search"
+    <Input className="searchex" icon="search"
          placeholder="Search..."
          onChange={(e) => searchItems(e.target.value)}/>
-         <ExportReactCSV csvData={items} fileName="my_stuff.csv" />
+         <ExportReactCSV className="searchex" csvData={items} fileName="my_stuff.csv" />
 
     {showAdd ? <Add handleToggleAdd={handleToggleAdd} handleCreate={handleCreate} /> :
         <>
@@ -192,7 +205,7 @@ const [filteredResults, setFilteredResults] = useState(null)
                     <td><DeleteIcon className="clickIcon" onClick={()=>handleDelete(item.id)}  /></td>
                   </tr>
                   {showEdit && selectIndex === index ?
-                  <Edit handleUpdate={handleUpdate} item={item}/> : null}
+                  <Edit handleToggleEdit={handleToggleEdit} handleUpdate={handleUpdate} item={item}/> : null}
                 </React.Fragment>
               )
             })) : items.map((item, index) => {
@@ -219,7 +232,7 @@ const [filteredResults, setFilteredResults] = useState(null)
                   <td><DeleteIcon className="clickIcon" onClick={()=>handleDelete(item.id)}  /></td>
                 </tr>
                 {showEdit && selectIndex === index ?
-                <Edit handleUpdate={handleUpdate} item={item}/> : null}
+                <Edit handleToggleEdit={handleToggleEdit} handleUpdate={handleUpdate} item={item}/> : null}
               </React.Fragment>
               )
             })
