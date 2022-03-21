@@ -24,13 +24,14 @@ const Nav = (props) => {
         >
         MyStuffApp
         </Typography>
-        {props.showAdd ?   <Typography className="clickIcon" variant="h5" noWrap component="div" sx={{mr: 2, display: { xs: 'none', md: 'flex'} }} onClick={props.handleToggleAdd}
+        { props.showAdd && props.user ?   <Typography className="clickIcon" variant="h5" noWrap component="div" sx={{mr: 2, display: { xs: 'none', md: 'flex'} }} onClick={props.handleToggleAdd}
           >
           Return
-          </Typography> : <Typography className="clickIcon" variant="h5" noWrap component="div" sx={{mr: 2, display: { xs: 'none', md: 'flex'} }} onClick={props.handleToggleAdd}
-            >
-            Add Item
-            </Typography>}
+          </Typography> : null }
+        { !props.showAdd && props.user ?   <Typography className="clickIcon" variant="h5" noWrap component="div" sx={{mr: 2, display: { xs: 'none', md: 'flex'} }} onClick={props.handleToggleAdd}
+          >
+          Add Item
+          </Typography> : null }
         { (!props.signUp && !props.user) ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.toggleSignUp} >Sign Up</Button> : null }
         { (props.signUp && !props.user) ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.toggleSignUp} >Cancel</Button> : null }
         { (!props.signIn && !props.user) ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.toggleSignIn} >Log In</Button> : null }

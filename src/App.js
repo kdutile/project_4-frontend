@@ -87,7 +87,7 @@ const [showSearchex, setShowSearchex] = useState(true)
 
   const getItems = (username) => {
     if (username) {
-      axios.get('http://localhost:8000/api/items')
+      axios.get('https://mystuff-app.herokuapp.com/api/items')
       .then((response) => {
         const userFilter = response.data.filter(item => item.user === username);
         setItems(userFilter)
@@ -99,7 +99,7 @@ const [showSearchex, setShowSearchex] = useState(true)
         console.error(error);
       })
     } else {
-      axios.get('http://localhost:8000/api/items')
+      axios.get('https://mystuff-app.herokuapp.com/api/items')
       .then((response) => {
         const userFilter = response.data.filter(item => item.user === user);
         setItems(userFilter)
@@ -182,7 +182,7 @@ const [showSearchex, setShowSearchex] = useState(true)
 
   const handleUserSignIn = (username, password) => {
     axios
-      .put("http://localhost:8000/api/useraccount/login", {
+      .put("https://mystuff-app.herokuapp.com/api/useraccount/login", {
         username,
         password,
       })
@@ -199,7 +199,7 @@ const [showSearchex, setShowSearchex] = useState(true)
 
   const handleUserSignUp = (username, password) => {
     axios
-      .post("http://localhost:8000/api/useraccount", {
+      .post("https://mystuff-app.herokuapp.com/api/useraccount", {
         username,
         password,
       })
