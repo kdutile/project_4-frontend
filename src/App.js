@@ -143,7 +143,22 @@ const App = () => {
   }
 
   const toggleSignIn = () => {
-    setSignIn(!signIn)
+    if (signIn) {
+      setSignIn(!signIn)
+    } else {
+      setSignIn(!signIn)
+      setSignUp(false)
+    }
+  }
+
+  const toggleSignUp = () => {
+    if (signUp) {
+      setSignUp(!signUp)
+    } else {
+      setSignUp(!signUp)
+      setSignIn(false)
+    }
+    setSignUp(!signUp)
   }
 
   const signOut = () => {
@@ -177,7 +192,7 @@ const App = () => {
       .then((response) => {
         if (response.data.username) {
           setUser(response.data.username);
-          setSignIn(false);
+          setSignUp(false);
           getItems(response.data.username);
         } else {
           alert("That username is already taken. Please try again.");
@@ -206,10 +221,10 @@ const App = () => {
 
   return (
     <>
-    <Nav handleToggleAdd={handleToggleAdd} toggleSignIn={toggleSignIn} signIn={signIn} signOut={signOut} user={user}/>
+    <Nav handleToggleAdd={handleToggleAdd} toggleSignIn={toggleSignIn} signIn={signIn} signOut={signOut} toggleSignUp= {toggleSignUp} signUp={signUp} user={user}/>
 
-    { signIn ? <Login handleUserSignIn={handleUserSignIn} signIn={signIn}/> : null }
-    { signUp ? <Login handleUserSignUp={handleUserSignUp} signUp={signUp}/> : null }
+    { signIn ? <Login handleUserSignIn={handleUserSignIn} signIn={signIn} /> : null }
+    { signUp ? <Login handleUserSignUp={handleUserSignUp} signIn={signIn} /> : null }
 
     {/*//Make search it's own component and stick in the nav??*/}
     <Input icon='search'

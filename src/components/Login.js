@@ -17,11 +17,16 @@ const Login = (props) => {
 
   const handleUserSubmit = (event) => {
       event.preventDefault();
-      props.handleUserSignIn(username, password);
-      document.getElementById("sign-in").reset();
+      if (props.signIn) {
+        props.handleUserSignIn(username, password);
+        document.getElementById("sign-in").reset();
+      } else {
+        props.handleUserSignUp(username, password);
+        document.getElementById("sign-up").reset();
+      }
   };
 
-  return (
+  return (props.signIn) ? (
     <section>
       <h2>Sign In</h2>
       <form id="sign-in" onSubmit={handleUserSubmit}>
@@ -30,6 +35,16 @@ const Login = (props) => {
         <Input type="submit"/>
       </form>
     </section>
+  ) : (
+    <section>
+      <h2>Sign Up</h2>
+      <form id="sign-up" onSubmit={handleUserSubmit}>
+        <Input type="text" placeholder="username" onChange={handleUsername}/>
+        <Input type="password" placeholder="password" onChange={handlePassword}/>
+        <Input type="submit"/>
+      </form>
+    </section>
+
   )
 };
 
