@@ -60,6 +60,7 @@ const App = () => {
   const [open, setOpen] = useState(false);
 
   const [signIn, setSignIn] = useState(false);
+  const [signUp, setSignUp] = useState(false);
   const [user, setUser] = useState(null);
 
   const handleOpen = (item) => {
@@ -147,7 +148,7 @@ const App = () => {
 
   const signOut = () => {
     setUser(null);
-    getItems();
+    setItems([]);
   }
 
   const handleUserSignIn = (username, password) => {
@@ -163,6 +164,23 @@ const App = () => {
           getItems(response.data.username);
         } else {
           alert("Username and password do not match. Please try again.");
+        }
+      });
+  };
+
+  const handleUserSignUp = (username, password) => {
+    axios
+      .post("http://localhost:8000/api/useraccount", {
+        username,
+        password,
+      })
+      .then((response) => {
+        if (response.data.username) {
+          setUser(response.data.username);
+          setSignIn(false);
+          getItems(response.data.username);
+        } else {
+          alert("That username is already taken. Please try again.");
         }
       });
   };
@@ -190,7 +208,8 @@ const App = () => {
     <>
     <Nav handleToggleAdd={handleToggleAdd} toggleSignIn={toggleSignIn} signIn={signIn} signOut={signOut} user={user}/>
 
-    { signIn ? <Login handleUserSignIn={handleUserSignIn}/> : null }
+    { signIn ? <Login handleUserSignIn={handleUserSignIn} signIn={signIn}/> : null }
+    { signUp ? <Login handleUserSignUp={handleUserSignUp} signUp={signUp}/> : null }
 
     {/*//Make search it's own component and stick in the nav??*/}
     <Input icon='search'
