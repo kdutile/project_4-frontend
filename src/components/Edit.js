@@ -64,7 +64,8 @@ const Edit = (props) => {
                 className="input" type='number' value={item.cost} name='cost' onChange={handleChange}/>
 
 
-              <Button type='submit'>Submit</Button>
+              <Button
+              type='submit' >Submit</Button>
 
           </Box>
         </td>
