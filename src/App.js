@@ -233,10 +233,9 @@ const App = () => {
     { signUp ? <Login handleUserSignUp={handleUserSignUp} signIn={signIn} /> : null }
 
     {/*//Make search it's own component and stick in the nav??*/}
-    <Input icon='search'
-         placeholder='Search...'
-         onChange={(e) => searchItems(e.target.value)}/>
-         <ExportReactCSV className="searchex" csvData={items} fileName="my_stuff.csv" />
+    { user ? <Input icon='search' placeholder='Search...' onChange={(e) => searchItems(e.target.value)}/> : null }
+    { user ? <ExportReactCSV className="searchex" csvData={items} fileName="my_stuff.csv" /> : null }
+
 
     { showAdd ? <Add handleToggleAdd={handleToggleAdd} handleCreate={handleCreate} user={user}/> :
         <>
