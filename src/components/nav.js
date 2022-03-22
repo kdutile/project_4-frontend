@@ -18,25 +18,29 @@ import Button from '@mui/material/Button';
 const Nav = (props) => {
 
   return (
+
     <AppBar position="sticky">
       <Toolbar className="topnav">
         <Typography variant="h3" noWrap component="div" sx={{mr: 2, display: { xs: 'none', md: 'flex'} }}
         >
         MyStuffApp
         </Typography>
-        { props.showAdd && props.user ?   <Typography className="clickIcon" variant="h5" noWrap component="div" sx={{mr: 2, display: { xs: 'none', md: 'flex'} }} onClick={props.handleToggleAdd}
-          >
-          Return
-          </Typography> : null }
-        { !props.showAdd && props.user ?   <Typography className="clickIcon" variant="h5" noWrap component="div" sx={{mr: 2, display: { xs: 'none', md: 'flex'} }} onClick={props.handleToggleAdd}
-          >
-          Add Item
-          </Typography> : null }
-        { (!props.signUp && !props.user) ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.toggleSignUp} >Sign Up</Button> : null }
-        { (props.signUp && !props.user) ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.toggleSignUp} >Cancel</Button> : null }
-        { (!props.signIn && !props.user) ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.toggleSignIn} >Log In</Button> : null }
-        { (props.signIn && !props.user) ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.toggleSignIn} >Cancel</Button> : null }
-        { props.user ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.signOut}>Log Out</Button> : null }
+
+        <div className="tools">
+          { props.showAdd && props.user ?   <Typography className="clickIcon" variant="h5" noWrap component="div" sx={{mr: 2, display: { xs: 'none', md: 'flex'} }} onClick={props.handleToggleAdd}
+            >
+            Return
+            </Typography> : null }
+          { !props.showAdd && props.user ?   <Typography className="clickIcon" variant="h5" noWrap component="div" sx={{mr: 2, display: { xs: 'none', md: 'flex'} }} onClick={props.handleToggleAdd}
+            >
+            Add Item
+            </Typography> : null }
+          { (!props.signUp && !props.user) ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.toggleSignUp} >Sign Up</Button> : null }
+          { (props.signUp && !props.user) ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.toggleSignUp} >Cancel</Button> : null }
+          { (!props.signIn && !props.user) ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.toggleSignIn} >Log In</Button> : null }
+          { (props.signIn && !props.user) ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.toggleSignIn} >Cancel</Button> : null }
+          { props.user ? <Button sx={{color:'blue',fontSize:'medium',border:'2px solid black', backgroundColor: 'lightblue'}} className="login" onClick={props.signOut}>Log Out</Button> : null }
+        </div>
       </Toolbar>
     </AppBar>
   )

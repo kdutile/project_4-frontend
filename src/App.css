@@ -45,9 +45,15 @@ table td {
   cursor: pointer;
 }
 
-.topnav {
+/* .topnav {
   display: flex;
   justify-content: space-between;
+} */
+
+.tools {
+  width: 75vw;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .form {
