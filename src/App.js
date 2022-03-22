@@ -237,24 +237,53 @@ const App = () => {
     { user ? <ExportReactCSV className="searchex" csvData={items} fileName="my_stuff.csv" /> : null }
 
 
-    { showAdd ? <Add handleToggleAdd={handleToggleAdd} handleCreate={handleCreate} user={user}/> :
-        <>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Description</th>
-                <th>Cost</th>
-                <th>More</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-            {/*=======Mak's search ternary!=========*/}
-            { filteredResults ? (filteredResults.map((item, index) => {
-              return (
+    {user ? ( showAdd ? <Add handleToggleAdd={handleToggleAdd} handleCreate={handleCreate} user={user}/> :
+          <>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th>Cost</th>
+                  <th>More</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+              {/*=======Mak's search ternary!=========*/}
+              { filteredResults ? (filteredResults.map((item, index) => {
+                return (
+                   <React.Fragment key={item.id}>
+                    <tr>
+                      <td>{item.name}</td>
+                      <td>{item.category}</td>
+                      <td>{item.description}</td>
+                      <td>${item.cost}</td>
+                      <td>
+                              <MoreHorizIcon className="clickIcon" sx={{mr: 1}}color="primary" variant="contained" value="Submit" type='Modal' onClick={()=>{handleOpen(item)}} />
+                              <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                                <Box sx={modalStyle}>
+                                  <Typography id="modal-modal-title" variant="h2" component="h2">{selectItem.name}
+                                  </Typography>
+                                  <img src="https://wl-brightside.cf.tsp.li/resize/728x/jpg/4bc/a6e/49d49351c9b013bf9f34239c21.jpg" alt="nothing shown here"
+                                  width="800"
+                                  height="800"></img>
+                                  <Typography id="modal-modal-description" variant="p" component="p">{selectItem.description}
+                                  </Typography>
+                                </Box>
+                              </Modal>
+                      </td>
+                      <td><CreateIcon className="clickIcon" onClick={(event) => {handleToggleEdit(index)}}/></td>
+                      <td><DeleteIcon className="clickIcon" onClick={()=>handleDelete(item.id)}  /></td>
+                    </tr>
+                    {showEdit && selectIndex === index ?
+                    <Edit handleToggleEdit={handleToggleEdit} handleUpdate={handleUpdate} item={item}/> : null}
+                  </React.Fragment>
+                )
+              })) : items.map((item, index) => {
+                return (
                  <React.Fragment key={item.id}>
                   <tr>
                     <td>{item.name}</td>
@@ -267,9 +296,7 @@ const App = () => {
                               <Box sx={modalStyle}>
                                 <Typography id="modal-modal-title" variant="h2" component="h2">{selectItem.name}
                                 </Typography>
-                                <img src="https://wl-brightside.cf.tsp.li/resize/728x/jpg/4bc/a6e/49d49351c9b013bf9f34239c21.jpg" alt="nothing shown here"
-                                width="800"
-                                height="800"></img>
+                                <img src={selectItem.image} alt="nothing shown here"></img>
                                 <Typography id="modal-modal-description" variant="p" component="p">{selectItem.description}
                                 </Typography>
                               </Box>
@@ -281,39 +308,14 @@ const App = () => {
                   {showEdit && selectIndex === index ?
                   <Edit handleToggleEdit={handleToggleEdit} handleUpdate={handleUpdate} item={item}/> : null}
                 </React.Fragment>
-              )
-            })) : items.map((item, index) => {
-              return (
-               <React.Fragment key={item.id}>
-                <tr>
-                  <td>{item.name}</td>
-                  <td>{item.category}</td>
-                  <td>{item.description}</td>
-                  <td>${item.cost}</td>
-                  <td>
-                          <MoreHorizIcon className="clickIcon" sx={{mr: 1}}color="primary" variant="contained" value="Submit" type='Modal' onClick={()=>{handleOpen(item)}} />
-                          <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-                            <Box sx={modalStyle}>
-                              <Typography id="modal-modal-title" variant="h2" component="h2">{selectItem.name}
-                              </Typography>
-                              <img src={selectItem.image} alt="nothing shown here"></img>
-                              <Typography id="modal-modal-description" variant="p" component="p">{selectItem.description}
-                              </Typography>
-                            </Box>
-                          </Modal>
-                  </td>
-                  <td><CreateIcon className="clickIcon" onClick={(event) => {handleToggleEdit(index)}}/></td>
-                  <td><DeleteIcon className="clickIcon" onClick={()=>handleDelete(item.id)}  /></td>
-                </tr>
-                {showEdit && selectIndex === index ?
-                <Edit handleToggleEdit={handleToggleEdit} handleUpdate={handleUpdate} item={item}/> : null}
-              </React.Fragment>
-              )
-            })
-            }
-            </tbody>
-          </table>
-        </>
+                )
+              })
+              }
+              </tbody>
+            </table>
+          </>
+      ) :
+      <div className="welcome"> <Typography sx={{fontSize: '2em'}}>Welcome to MyStuffApp, Please sign in to begin tracking your items in case your house burns down tomorrow!</Typography> </div>
     }
     </>
   )
