@@ -51,9 +51,10 @@ table td {
 } */
 
 .tools {
-  width: 75vw;
+  width: 20vw;
+  margin-left: 55vw;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
 }
 
 .form {
