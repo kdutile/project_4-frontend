@@ -3,7 +3,7 @@ import axios from 'axios'
 import './App.css'
 
 // export button
-// import {ExportReactCSV} from './components/ExportReactCSV'
+import {ExportReactCSV} from './components/ExportReactCSV'
 // search function
 import {Input} from 'semantic-ui-react'
 
@@ -236,7 +236,7 @@ const App = () => {
     <Input icon='search'
          placeholder='Search...'
          onChange={(e) => searchItems(e.target.value)}/>
-         {/*<ExportReactCSV className="searchex" csvData={items} fileName="my_stuff.csv" />*/}
+         <ExportReactCSV className="searchex" csvData={items} fileName="my_stuff.csv" />
 
     { showAdd ? <Add handleToggleAdd={handleToggleAdd} handleCreate={handleCreate} user={user}/> :
         <>
