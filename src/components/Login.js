@@ -1,7 +1,7 @@
 import { useState } from "react";
 // added because otherwise inputs broken
 import {Input} from 'semantic-ui-react'
-
+import Box from '@mui/material/Box';
 const Login = (props) => {
   // Hooks
   const [username, setUsername] = useState(null);
@@ -29,20 +29,38 @@ const Login = (props) => {
   return (props.signIn) ? (
     <section>
       <h2>Sign In</h2>
-      <form id="sign-in" onSubmit={handleUserSubmit}>
+      <Box
+        className = "form"
+        id="sign-in"
+        onSubmit={handleUserSubmit}
+        component="form"
+        sx={{
+          '& > :not(style)': {m:1},
+        }}
+        noValidate
+      >
         <Input type="text" placeholder="username" onChange={handleUsername}/>
         <Input type="password" placeholder="password" onChange={handlePassword}/>
         <Input type="submit"/>
-      </form>
+      </Box>
     </section>
   ) : (
     <section>
       <h2>Sign Up</h2>
-      <form id="sign-up" onSubmit={handleUserSubmit}>
+      <Box
+        className = "form"
+        id="sign-up"
+        onSubmit={handleUserSubmit}
+        component="form"
+        sx={{
+          '& > :not(style)': {m:1},
+        }}
+        noValidate
+      >
         <Input type="text" placeholder="username" onChange={handleUsername}/>
         <Input type="password" placeholder="password" onChange={handlePassword}/>
         <Input type="submit"/>
-      </form>
+      </Box>
     </section>
 
   )
