@@ -119,7 +119,7 @@ const App = () => {
 }
 
   const handleDelete = (id) => {
-    axios.delete('https://ocalhost:8000/api/items/' + id)
+    axios.delete('https://mystuff-app.herokuapp.com/api/items/' + id)
       .then((response) => {
         getItems()
       })
