@@ -9,7 +9,7 @@ import TextareaAutosize from '@mui/base/TextareaAutosize';
 
 const Add = (props) => {
   // handling state
-  const emptyItem = {name: '', category: '', description: '', cost: '', user: props.user}
+  const emptyItem = {name: '', category: '', description: '', cost: '', image: '', user: props.user}
   const [item, setItem] = useState(emptyItem)
 
   // function to handle the changes for our object
@@ -49,6 +49,15 @@ const Add = (props) => {
         className="input"
         name="category"
         value={item.category}
+        onChange={handleChange}
+        />
+
+
+        <InputLabel htmlFor='category'>Item Image: </InputLabel>
+        <OutlinedInput
+        className="input"
+        name="image"
+        value={item.image}
         onChange={handleChange}
         />
 

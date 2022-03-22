@@ -51,6 +51,15 @@ const Edit = (props) => {
               />
 
 
+              <InputLabel htmlFor='image'>Item Image: </InputLabel>
+              <OutlinedInput
+              className="input"
+              name="image"
+              value={item.image}
+              onChange={handleChange}
+              />
+
+
               <InputLabel htmlFor='description'>Item Description: </InputLabel>
               <TextareaAutosize
               minRows={4}

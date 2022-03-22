@@ -296,7 +296,7 @@ const App = () => {
                             <Box sx={modalStyle}>
                               <Typography id="modal-modal-title" variant="h2" component="h2">{selectItem.name}
                               </Typography>
-                              <img src="https://wl-brightside.cf.tsp.li/resize/728x/jpg/4bc/a6e/49d49351c9b013bf9f34239c21.jpg" alt="nothing shown here"></img>
+                              <img src={selectItem.image} alt="nothing shown here"></img>
                               <Typography id="modal-modal-description" variant="p" component="p">{selectItem.description}
                               </Typography>
                             </Box>
